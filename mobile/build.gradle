@@ -53,6 +53,7 @@ dependencies {
     testCompile "junit:junit:${junit_version}"
     compile "com.android.support:appcompat-v7:${appcompat_version}"
     compile "com.google.android.gms:play-services:${play_services_version}"
+    compile "com.google.android.gms:play-services-analytics:${play_services_version}"
     compile "com.android.support:design:${design_version}"
     compile "com.google.guava:guava:${guava_version}"
 
@@ -79,4 +80,10 @@ dependencies {
 
     // Logger
     compile "com.orhanobut:logger:${logger_version}"
+
+    // EventBus
+    compile "org.greenrobot:eventbus:${eventbus_version}"
 }
+
+// Disabled for now - requires google-services.json config file.
+//apply plugin: 'com.google.gms.google-services'
