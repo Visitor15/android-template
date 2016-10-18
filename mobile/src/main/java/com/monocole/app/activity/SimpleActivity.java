@@ -13,15 +13,32 @@ import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.monocole.app.BaseActivity;
+import com.monocole.app.MonocoleApp;
 import com.monocole.app.R;
+import com.monocole.app.event.SimpleEvent;
+import com.monocole.app.gui.NavDrawAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by visitor15 on 10/17/16.
  */
 
 public class SimpleActivity extends BaseActivity {
+
+    @Inject
+    NavDrawAdapter navDrawAdapter;
+
+    @Inject @Named("defaultBus")
+    EventBus eventBus;
 
     @Override
     protected View onSimpleCreateView(View parent, String name, Context context, AttributeSet attrs) {
@@ -30,12 +47,12 @@ public class SimpleActivity extends BaseActivity {
 
     @Override
     protected void onSimpleResume() {
-
+        eventBus.register(this);
     }
 
     @Override
     protected void onSimplePause() {
-
+        eventBus.unregister(this);
     }
 
     @Override
@@ -45,25 +62,8 @@ public class SimpleActivity extends BaseActivity {
 
     @Override
     protected void onSimpleNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        navDrawAdapter.onNavDrawMenuItemClicked(item, drawer);
     }
 
     @Override
@@ -95,6 +95,7 @@ public class SimpleActivity extends BaseActivity {
 
     @Override
     protected void onSimpleCreate(Bundle savedInstanceState) {
+        MonocoleApp.getContext().getSimpleActivityComponent().inject(this);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -116,5 +117,10 @@ public class SimpleActivity extends BaseActivity {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSimpleEvent(SimpleEvent event) {
+        Toast.makeText(this, event.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }
