@@ -1,26 +1,29 @@
 package com.monocole.app.gui;
 
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
 import com.monocole.app.R;
 import com.monocole.app.event.SimpleEvent;
+import com.monocole.app.event.ui.NavDrawerEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
 /**
- * Created by visitor15 on 10/18/16.
+ * Created by visitor15 on 10/22/16.
  */
 
-public class DefaultNavDrawAdapter implements NavDrawAdapter {
+public class DefaultNavDrawerListener implements OnNavigationItemSelectedListener {
 
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public void onNavDrawMenuItemClicked(final MenuItem item, final DrawerLayout drawer) {
+    public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        EventBus.getDefault().post(new SimpleEvent(id, Integer.toString(id)));
+        EventBus.getDefault().post(new NavDrawerEvent(NavDrawerEvent.Action.ITEM_CLICKED, id));
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
@@ -35,6 +38,7 @@ public class DefaultNavDrawAdapter implements NavDrawAdapter {
         } else if (id == R.id.nav_send) {
 
         }
-        drawer.closeDrawer(GravityCompat.START);
+//        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

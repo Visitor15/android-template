@@ -83,6 +83,10 @@ dependencies {
 
     // EventBus
     compile "org.greenrobot:eventbus:${eventbus_version}"
+
+    // Butter Knife
+    apt "com.jakewharton:butterknife-compiler:${butterknife_version}"
+    compile "com.jakewharton:butterknife:${butterknife_version}"
 }
 
 // Disabled for now - requires google-services.json config file.

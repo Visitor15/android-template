@@ -2,8 +2,8 @@ package com.monocole.app;
 
 import android.app.Application;
 
-import com.monocole.app.dagger.DaggerSimpleActivityComponent;
-import com.monocole.app.dagger.SimpleActivityComponent;
+import com.monocole.app.dagger.BaseActivityComponent;
+import com.monocole.app.dagger.DaggerBaseActivityComponent;
 
 /**
  * Created by visitor15 on 10/18/16.
@@ -13,7 +13,7 @@ public class MonocoleApp extends Application {
 
     private static MonocoleApp singleton;
 
-    private static SimpleActivityComponent simpleActivityComponent;
+    private static BaseActivityComponent baseActivityComponent;
 
     @Override
     public void onCreate() {
@@ -27,10 +27,10 @@ public class MonocoleApp extends Application {
     }
 
     private void init() {
-        simpleActivityComponent = DaggerSimpleActivityComponent.builder().build();
+        baseActivityComponent = DaggerBaseActivityComponent.builder().build();
     }
 
-    public SimpleActivityComponent getSimpleActivityComponent() {
-        return simpleActivityComponent;
+    public BaseActivityComponent getSimpleActivityComponent() {
+        return baseActivityComponent;
     }
 }
